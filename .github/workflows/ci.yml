@@ -59,11 +59,17 @@ jobs:
 
   docs:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
       - uses: terraform-docs/gh-actions@v1
         with:
           working-dir: modules/rag-stack
           output-file: README.md
           output-method: inject
-          fail-on-diff: true
+          git-push: ${{ github.event_name == 'push' }}
+          git-commit-message: "docs: regenerate module README (terraform-docs)"
+          fail-on-diff: false

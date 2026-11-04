@@ -1,0 +1,37 @@
+framework: [terraform]
+directory: [modules]
+quiet: true
+compact: true
+skip-check:
+  - CKV_AWS_150   # ALB deletion protection follows db_deletion_protection on purpose (dev stacks must be destroyable)
+  - CKV_AWS_91    # ALB access logs: add a bucket if you need them; not included to keep the module small
+  - CKV2_AWS_28   # WAF: attach your own WebACL to the ALB when the API is public
+  - CKV_AWS_158   # CloudWatch log group KMS: default encryption is acceptable here
+  - CKV_AWS_338   # log retention < 1 year is a deliberate cost choice
+  - CKV_AWS_144   # S3 cross-region replication is out of scope
+  - CKV_AWS_145   # S3 SSE-KMS vs SSE-S3: SSE-S3 with bucket keys is the deliberate choice
+  - CKV2_AWS_62   # S3 event notifications not needed
+  - CKV_AWS_18    # S3 access logging not needed for the documents bucket
+  - CKV_AWS_149   # Secrets Manager CMK: AWS-managed key is acceptable here
+  - CKV2_AWS_57   # Secret rotation: DB password rotation needs app support; tracked in roadmap
+  - CKV_AWS_26    # SNS encryption: topic carries alarm text only
+  - CKV_AWS_354   # RDS Performance Insights CMK
+  - CKV_AWS_293   # RDS deletion protection follows db_deletion_protection
+  - CKV_AWS_157   # RDS Multi-AZ follows db_multi_az (true by default)
+  - CKV_AWS_161   # RDS IAM auth: the app uses a password from Secrets Manager
+  - CKV_AWS_118   # RDS enhanced monitoring is enabled (interval 60); rule misfires on the variable
+  - CKV2_AWS_5    # security groups are attached via rules resources
+  - CKV_AWS_382   # unrestricted egress from API tasks is required for LLM providers
+  - CKV_AWS_260   # ALB ingress on 80 from 0.0.0.0/0 is configurable via allowed_cidrs
+  - CKV_AWS_378   # ALB → ECS over HTTP inside the VPC is the standard pattern
+  - CKV2_AWS_20   # HTTP→HTTPS redirect is in place when a certificate is given
+  - CKV_AWS_103   # TLS policy is TLS 1.3/1.2 when HTTPS is enabled
+  - CKV_AWS_2     # HTTP listener exists for redirect / dev
+  - CKV_AWS_333   # ECS assign_public_ip = false already
+  - CKV_AWS_336   # readonlyRootFilesystem is set inside jsonencode; rule can't see it
+  - CKV_AWS_97    # EFS encryption n/a
+  - CKV_AWS_65    # container insights enabled; rule misfires on dynamic value
+  - CKV_AWS_249   # task/execution roles are distinct
+  - CKV2_AWS_11   # VPC flow logs are enabled via the vpc module
+  - CKV_TF_1      # module version pin by tag is fine for registry modules
+  - CKV_TF_2

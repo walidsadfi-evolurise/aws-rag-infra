@@ -3,6 +3,7 @@ directory: [modules]
 quiet: true
 compact: true
 skip-check:
+  - CKV_AWS_394   # AZ data source: we slice the first az_count zones; new zones are appended by AWS, so the set is stable
   - CKV_AWS_150   # ALB deletion protection follows db_deletion_protection on purpose (dev stacks must be destroyable)
   - CKV_AWS_91    # ALB access logs: add a bucket if you need them; not included to keep the module small
   - CKV2_AWS_28   # WAF: attach your own WebACL to the ALB when the API is public

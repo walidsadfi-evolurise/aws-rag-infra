@@ -14,6 +14,12 @@ resource "aws_db_parameter_group" "pg" {
     value = "1000"
   }
 
+  # Encryption in transit: refuse plain-text connections (the app's DSN uses sslmode=require).
+  parameter {
+    name  = "rds.force_ssl"
+    value = "1"
+  }
+
   parameter {
     name         = "shared_preload_libraries"
     value        = "pg_stat_statements"

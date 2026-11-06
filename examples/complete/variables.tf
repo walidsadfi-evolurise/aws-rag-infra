@@ -1,16 +1,19 @@
 variable "region" {
-  type    = string
-  default = "eu-west-3"
+  description = "AWS region to deploy into."
+  type        = string
+  default     = "eu-west-3"
 }
 
 variable "environment" {
-  type    = string
-  default = "prod"
+  description = "Environment label (dev, staging, prod); drives Multi-AZ and deletion protection."
+  type        = string
+  default     = "prod"
 }
 
 variable "image" {
-  type    = string
-  default = "ghcr.io/walidsadfi-evolurise/private-rag-kit:latest"
+  description = "Container image of the RAG API."
+  type        = string
+  default     = "ghcr.io/walidsadfi-evolurise/private-rag-kit:latest"
 }
 
 variable "certificate_arn" {
@@ -20,33 +23,39 @@ variable "certificate_arn" {
 }
 
 variable "allowed_cidrs" {
-  type    = list(string)
-  default = ["0.0.0.0/0"]
+  description = "CIDRs allowed to reach the load balancer."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
 }
 
 variable "anthropic_api_key" {
-  type      = string
-  sensitive = true
-  default   = ""
+  description = "Anthropic API key, passed to the API as RAG_ANTHROPIC_API_KEY. Use TF_VAR_anthropic_api_key."
+  type        = string
+  sensitive   = true
+  default     = ""
 }
 
 variable "openai_api_key" {
-  type      = string
-  sensitive = true
-  default   = ""
+  description = "OpenAI API key, passed to the API as RAG_OPENAI_API_KEY. Use TF_VAR_openai_api_key."
+  type        = string
+  sensitive   = true
+  default     = ""
 }
 
 variable "alarm_email" {
-  type    = string
-  default = ""
+  description = "E-mail subscribed to the alarms topic (empty = no subscription)."
+  type        = string
+  default     = ""
 }
 
 variable "hosted_zone_id" {
-  type    = string
-  default = ""
+  description = "Route 53 hosted zone id for the API alias record (empty = no DNS record)."
+  type        = string
+  default     = ""
 }
 
 variable "api_hostname" {
-  type    = string
-  default = "api.rag.example.com"
+  description = "Hostname of the API alias record in the hosted zone."
+  type        = string
+  default     = "api.rag.example.com"
 }

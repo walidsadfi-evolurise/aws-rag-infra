@@ -1,13 +1,16 @@
 output "api_url" {
-  value = module.rag.api_url
+  description = "Base URL of the API."
+  value       = module.rag.api_url
 }
 
 output "documents_bucket" {
-  value = module.rag.documents_bucket
+  description = "S3 bucket for source documents."
+  value       = module.rag.documents_bucket
 }
 
 output "app_secret_arn" {
-  value = module.rag.app_secret_arn
+  description = "Secrets Manager ARN holding the runtime secrets, including RAG_API_TOKEN."
+  value       = module.rag.app_secret_arn
 }
 
 output "first_call" {
